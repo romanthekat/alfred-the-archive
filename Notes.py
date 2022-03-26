@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 from Alfred import Tools
@@ -134,7 +134,7 @@ class Note(Notes):
         else:
             content = self.FALLBACK_CONTENT
         content = content.replace(self.template_tag, '')
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             content = content.replace('{' + k + '}', v)
         return content
 
@@ -303,7 +303,7 @@ class Search(Notes):
                     results = re.findall(regex, content)
                     matches.extend(results)
         counted_matches = Counter([v.lower() for v in matches])
-        sorted_matches = OrderedDict(sorted(counted_matches.items(), key=lambda x: x[i[sort_by]], reverse=reverse))
+        sorted_matches = OrderedDict(sorted(list(counted_matches.items()), key=lambda x: x[i[sort_by]], reverse=reverse))
         return sorted_matches
 
     def tasks(self, todo):

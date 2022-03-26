@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
-from __future__ import absolute_import
+
 from Foundation import NSData
 from Foundation import NSPropertyListMutableContainers
 from Foundation import NSPropertyListSerialization

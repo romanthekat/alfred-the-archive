@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 from Alfred import Tools
-import HTMLParser
+import html.parser
 import os
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 class Markdown(object):
 
@@ -18,7 +18,7 @@ class Markdown(object):
 
     def _fetchHtml(self):
         try:
-            r = urllib2.urlopen(self.url)
+            r = urllib.request.urlopen(self.url)
             response = r.read().decode('utf-8')
         except:
             response = "<html><body><a href=\"" + self.url + "\">" + self.url + "</a></body></html>"
@@ -37,9 +37,9 @@ class Markdown(object):
 
     @staticmethod
     def _htmlDecode(string):
-        string = urllib2.unquote(string)
+        string = urllib.parse.unquote(string)
         # return string
-        return HTMLParser.HTMLParser().unescape(string).encode('utf-8')
+        return html.parser.HTMLParser().unescape(string).encode('utf-8')
 
     def _markdownHeader(self):
         return "---\n" \
@@ -61,7 +61,7 @@ class Markdown(object):
         return self.md.decode('utf-8')
 
     def getMdUrl(self):
-        page_url = u"[{0}]({1})".format(self.getTitle(), self.getUrl())
+        page_url = "[{0}]({1})".format(self.getTitle(), self.getUrl())
         return page_url
 
     def getTitle(self):

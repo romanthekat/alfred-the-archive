@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 
 from datetime import datetime, timedelta
@@ -8,7 +8,8 @@ import os
 import re
 import sys
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
+import importlib
 
 class Items(object):
 
@@ -69,7 +70,7 @@ class Items(object):
         self.setKeyValue("icon", self._defineIcon(m_path, m_type))
 
     def setItem(self, **kwargs):
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             self.setKeyValue(key, value)
 
     def setKeyValue(self, key, value):
@@ -95,7 +96,7 @@ class Tools(object):
 
     @staticmethod
     def getArgv(i):
-        reload(sys)
+        importlib.reload(sys)
         sys.setdefaultencoding('utf-8')
         try:
             return sys.argv[i].encode('utf-8')
@@ -121,7 +122,7 @@ class Tools(object):
     @staticmethod
     def getNotesPath():
         archive_url = Tools.settings('archiveURL')
-        path = urllib2.unquote(archive_url[len("file://"):])
+        path = urllib.parse.unquote(archive_url[len("file://"):])
         return path
 
     @staticmethod
@@ -176,7 +177,7 @@ class Tools(object):
             try:
                 return data[key]
             except KeyError:
-                sys.stderr.write(u"Warning: Cannot get the application setting: {0} ".format(key))
+                sys.stderr.write("Warning: Cannot get the application setting: {0} ".format(key))
                 return fallback
         sys.stderr.write("Error: Cannot find the application settings, please verify the_archive_bundle_id.")
         sys.exit(0)
@@ -187,7 +188,7 @@ class Tools(object):
 
     @staticmethod
     def strReplace(text, replace_map, lowercase=True):
-        for k in replace_map.keys():
+        for k in list(replace_map.keys()):
             text = text.replace(k, replace_map[k])
         return text.lower() if lowercase else text
 
